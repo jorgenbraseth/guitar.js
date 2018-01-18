@@ -47,22 +47,21 @@ analyser.connect(audioCtx.destination);
 
 var out = audioCtx.createBiquadFilter();
 out.type = "highpass";
-out.frequency.value = 6000;
-out.Q.value = 1;
+out.frequency.setValueAtTime(audioCtx.currentTime, 100);
+out.Q.setValueAtTime(audioCtx.currentTime, .2);
 out.connect(analyser);
 
 function play(...freqs) {
 
     let gain = audioCtx.createGain();
-    gain.gain.value = 1 / 6;
+    gain.gain.setValueAtTime(audioCtx.currentTime, 1 / 6);
     gain.connect(analyser);
 
 
     for (let f of freqs) {
-        console.log(f);
         let tone = audioCtx.createOscillator();
         tone.type = 'square';
-        tone.frequency.value = f;
+        tone.frequency.setValueAtTime(audioCtx.currentTime,f);
 
         tone.connect(out);
 
